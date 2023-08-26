@@ -1,6 +1,6 @@
 import { signOut } from '../utils/auth';
-import { booksOnSale, getBooks } from '../api/bookData';
-import { showBooks } from '../pages/books';
+import { booksOnSale, getBooks, searchBooks } from '../api/bookData';
+import { emptyBooks, showBooks } from '../pages/books';
 import { showAuthors } from '../pages/authors';
 import { getAuthors, favoriteAuthor } from '../api/authorData';
 
@@ -42,7 +42,14 @@ const navigationEvents = () => {
       // MAKE A CALL TO THE API TO FILTER ON THE BOOKS
       // IF THE SEARCH DOESN'T RETURN ANYTHING, SHOW THE EMPTY STORE
       // OTHERWISE SHOW THE STORE
-
+      searchBooks(searchValue)
+        .then((search) => {
+          if (search.length) {
+            showBooks(search);
+          } else {
+            emptyBooks();
+          }
+        });
       document.querySelector('#search').value = '';
     }
   });
